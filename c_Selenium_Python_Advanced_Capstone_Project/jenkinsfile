@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main',
+                git branch: 'master',
                     url: 'https://github.com/Saniya64-24/Notes_App_UI_API_Automation_testing.git'
             }
         }
