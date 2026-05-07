@@ -17,9 +17,9 @@ pipeline {
                 bat 'cd c_Selenium_Python_Advanced_Capstone_Project && "C:\\Program Files\\Python310\\Scripts\\pip.exe" install -r requirements.txt'
             }
         }
-        stage('Run Automation Tests') {
+        stage('Run API Tests') {
             steps {
-                bat 'cd c_Selenium_Python_Advanced_Capstone_Project && "C:\\Program Files\\Python310\\Scripts\\pytest.exe" -v --alluredir=allure-results'
+                bat 'cd c_Selenium_Python_Advanced_Capstone_Project && "C:\\Program Files\\Python310\\Scripts\\pytest.exe" tests/test_api.py -v --alluredir=allure-results'
             }
         }
         stage('Generate Allure Report') {
