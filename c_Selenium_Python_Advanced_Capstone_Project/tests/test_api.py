@@ -1,5 +1,6 @@
 import allure
 import requests
+from utils.logger import logger
 from api.api_client import APIClient
 from config.environment import get_config
 
@@ -56,3 +57,12 @@ def test_create_note_missing_fields():                 # TC-014
         json={}
     )
     assert r.status_code == 400
+
+@allure.feature("Performance")
+def test_ui_load_time(driver):
+    page = LoginPage(driver)
+    page.open()
+    page.wait_for_dom()
+    timing = page.get_ui_timing()
+    print(f"\nUI Load Time: {timing}ms")
+    assert timing < 5000    # page  must load under 5 soconds

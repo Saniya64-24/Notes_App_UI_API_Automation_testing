@@ -1,5 +1,7 @@
 import allure
 import pytest
+from utils.logger import logger
+
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from config.environment import get_config

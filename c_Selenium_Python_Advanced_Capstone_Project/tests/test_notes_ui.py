@@ -1,4 +1,6 @@
 import allure
+from utils.logger import logger
+
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.notes_page import NotesPage
