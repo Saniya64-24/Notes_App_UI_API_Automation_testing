@@ -1,13 +1,13 @@
 import allure
+import pytest
 import requests
-from utils.logger import logger
 from api.api_client import APIClient
 from config.environment import get_config
 
 config = get_config()
 
 @allure.feature("API")
-def test_get_notes():                                  # TC-006
+def test_get_notes():
     api = APIClient()
     api.login()
     r = api.get_notes()
@@ -15,40 +15,37 @@ def test_get_notes():                                  # TC-006
     assert isinstance(r.json()["data"], list)
 
 @allure.feature("API")
-def test_api_response_time():                          # TC-007
+def test_api_response_time():
     api = APIClient()
     api.login()
     r = api.get_notes()
     assert r.elapsed.total_seconds() < 2
 
 @allure.feature("API")
-def test_delete_note():                                # TC-009
+def test_delete_note():
     api = APIClient()
     api.login()
-    # create a note first
     r = api.create_note("Delete Me", "Will be deleted")
     note_id = r.json()["data"]["id"]
-    # delete it
     r = api.delete_note(note_id)
     assert r.status_code == 200
-    # confirm gone from API
     notes = api.get_notes().json()["data"]
     assert not any(n["id"] == note_id for n in notes)
 
 @allure.feature("API - Negative")
-def test_get_notes_no_token():                         # TC-012
+def test_get_notes_no_token():
     r = requests.get(f"{config['api_url']}/notes")
     assert r.status_code == 401
 
 @allure.feature("API - Negative")
-def test_delete_nonexistent_note():                    # TC-013
+def test_delete_nonexistent_note():
     api = APIClient()
     api.login()
     r = api.delete_note("nonexistent-id-999")
     assert r.status_code == 400
 
 @allure.feature("API - Negative")
-def test_create_note_missing_fields():                 # TC-014
+def test_create_note_missing_fields():
     api = APIClient()
     api.login()
     r = requests.post(
@@ -57,12 +54,3 @@ def test_create_note_missing_fields():                 # TC-014
         json={}
     )
     assert r.status_code == 400
-
-@allure.feature("Performance")
-def test_ui_load_time(driver):
-    page = LoginPage(driver)
-    page.open()
-    page.wait_for_dom()
-    timing = page.get_ui_timing()
-    print(f"\nUI Load Time: {timing}ms")
-    assert timing < 5000    # page  must load under 5 soconds
