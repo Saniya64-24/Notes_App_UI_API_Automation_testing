@@ -1,0 +1,33 @@
+# Virtual Environment
+VENV/
+venv/
+env/
+
+# Screenshots
+screenshots/
+
+# Allure
+allure-results/
+allure-report/
+
+# Pytest cache
+.pytest_cache/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# ChromeDriver
+chromedriver.exe
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
