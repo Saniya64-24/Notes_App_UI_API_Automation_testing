@@ -7,6 +7,10 @@ from config.environment import get_config
 
 config = get_config()
 
+# -----------------------------
+#           FR-05
+# -----------------------------
+#creating note in ui and fetching data from api used to check note creation and visibility
 @allure.feature("E2E")
 def test_ui_note_appears_in_api(driver):
     # Step 1 — create note via UI
@@ -25,6 +29,10 @@ def test_ui_note_appears_in_api(driver):
     titles = [n["title"] for n in notes]
     assert "E2E Note" in titles
 
+# -----------------------------
+#           FR-08
+# -----------------------------
+# delete note at api and see in ui to know wheather the note deleted or not
 @allure.feature("E2E")
 def test_api_delete_reflects_on_ui(driver):
     # Step 1 — create note via API

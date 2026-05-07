@@ -6,8 +6,13 @@ from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from config.environment import get_config
 
+# this file covers positive and negative login ui scenarios 
 config = get_config()
 
+# -----------------------------
+#           FR-01
+# -----------------------------
+# Valid login test
 @allure.feature("Login")
 def test_valid_login(driver):
     page = LoginPage(driver)
@@ -15,6 +20,12 @@ def test_valid_login(driver):
     page.login(config["username"], config["password"])
     assert HomePage(driver).is_logged_in()
 
+
+# -----------------------------
+#           FR-09(UI)
+# -----------------------------
+
+#parameterized checking of error
 @allure.feature("Login - Negative")
 @pytest.mark.parametrize("email, password", [
     ("wrong@test.com",   "wrong123"),
@@ -26,6 +37,8 @@ def test_invalid_login(driver, email, password):
     page.login(email, password)
     assert page.is_visible(page.ERROR)
 
+
+#checking empty space entry in login details 
 @allure.feature("Login - Negative")
 def test_empty_fields(driver):                     # TC-003
     page = LoginPage(driver)
@@ -33,6 +46,7 @@ def test_empty_fields(driver):                     # TC-003
     page.login("", "")
     assert page.is_visible(page.FIELD_ERROR)
 
+#checking valid email error
 @allure.feature("Login - Negative")
 def test_invalid_email_format(driver):             # invalid email
     page = LoginPage(driver)
