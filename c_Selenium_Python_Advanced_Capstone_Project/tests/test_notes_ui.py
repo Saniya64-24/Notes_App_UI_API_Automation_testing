@@ -1,6 +1,5 @@
 import allure
-from utils.logger import logger
-
+from c_Selenium_Python_Advanced_Capstone_Project.utils.logger import logger
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.notes_page import NotesPage
@@ -30,3 +29,12 @@ def test_wrong_credentials(driver):                    # TC-011
     page.open()
     page.login("wrong@email.com", "wrongpass")
     assert page.is_visible(page.ERROR)
+
+@allure.feature("Performance")
+def test_ui_load_time(driver):
+    page = LoginPage(driver)
+    page.open()
+    page.wait_for_dom()
+    timing = page.get_ui_timing()
+    print(f"\nUI Load Time: {timing}ms")
+    assert timing < 5000    # page  must load under 5 soconds
