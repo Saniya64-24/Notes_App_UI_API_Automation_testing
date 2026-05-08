@@ -20,6 +20,9 @@ A Selenium + Python + Pytest hybrid automation framework for the ExpandTesting N
 - Docker Selenium Grid
 
 ## Project Structure
+## Project Structure
+
+```
 c_Selenium_Python_Advanced_Capstone_Project/
 ├── api/
 │   └── api_client.py
@@ -52,6 +55,7 @@ c_Selenium_Python_Advanced_Capstone_Project/
 ├── jenkinsfile
 ├── requirements.txt
 └── README.md
+```
 
 ## Installation
 
