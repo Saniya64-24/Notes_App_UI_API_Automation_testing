@@ -41,10 +41,7 @@ c_Selenium_Python_Advanced_Capstone_Project/
 │   └── test_e2e.py
 ├── utils/
 │   ├── logger.py
-│   ├── mcp_helper.py
-│   ├── retry_helper.py
-│   ├── wait_helper.py
-│   └── self_healing.py
+│   └── wait_helper.py
 ├── docker/
 │   └── docker-compose.yml
 ├── screenshots/
