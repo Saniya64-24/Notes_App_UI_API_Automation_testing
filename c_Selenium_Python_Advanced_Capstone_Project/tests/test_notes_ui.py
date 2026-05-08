@@ -28,9 +28,8 @@ def test_create_note(driver):
     home.click_add()
     notes = NotesPage(driver)
 
-    notes.create_note("My Test Note {random_value}", "This is a test description {random_value}")
-
-    assert notes.note_exists("My Test Note {random_value}")
+    notes.create_note(f"My Test Note {random_value}", f"This is a test description {random_value}")
+    assert notes.note_exists(f"My Test Note {random_value}")
 
 
 # -----------------------------
