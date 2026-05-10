@@ -33,3 +33,4 @@ Thumbs.db
 *.log
 
 config/config.yaml
+.env
