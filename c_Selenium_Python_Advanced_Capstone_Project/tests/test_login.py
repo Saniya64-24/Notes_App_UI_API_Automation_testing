@@ -1,10 +1,10 @@
 import allure
 import pytest
-from utils.logger import logger
 
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from config.environment import get_config
+from utils.logger import logger
 
 # this file covers positive and negative login ui scenarios 
 config = get_config()
@@ -15,10 +15,21 @@ config = get_config()
 # Valid login test
 @allure.feature("Login")
 def test_valid_login(driver):
+
+    logger.info("Opening login page")
+
     page = LoginPage(driver)
     page.open()
+
+    logger.info("Entering valid credentials")
+
     page.login(config["username"], config["password"])
+
+    logger.info("Checking whether login is successful")
+
     assert HomePage(driver).is_logged_in()
+
+    logger.info("Valid login test passed")
 
 
 # -----------------------------

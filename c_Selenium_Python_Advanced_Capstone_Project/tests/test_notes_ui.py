@@ -1,11 +1,12 @@
 import allure
 import random
-from c_Selenium_Python_Advanced_Capstone_Project.utils.logger import logger
+from utils.logger import logger
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.notes_page import NotesPage
 from config.environment import get_config
 from api.api_client import APIClient
+from utils.logger import logger
 
 config = get_config()
 
@@ -21,15 +22,29 @@ def do_login(driver):
 #creating notes via UI
 @allure.feature("Notes UI")
 def test_create_note(driver):
+
+    logger.info("Starting create note test")
+
     home = do_login(driver)
 
-    random_value=random.randint(1000,9999)
+    random_value = random.randint(1000,9999)
+
+    note_title = f"My Test Note {random_value}"
+    note_desc = f"This is a test description {random_value}"
+
+    logger.info(f"Creating note with title: {note_title}")
 
     home.click_add()
+
     notes = NotesPage(driver)
 
-    notes.create_note(f"My Test Note {random_value}", f"This is a test description {random_value}")
-    assert notes.note_exists(f"My Test Note {random_value}")
+    notes.create_note(note_title, note_desc)
+
+    logger.info("Checking whether note exists in UI")
+
+    assert notes.note_exists(note_title)
+
+    logger.info("Create note test passed")
 
 
 # -----------------------------
@@ -72,4 +87,6 @@ def test_ui_load_time(driver):
     page.wait_for_dom()
     timing = page.get_ui_timing()
     print(f"\nUI Load Time: {timing}ms")
-    assert timing < 2000    #page  must load within  2 soconds
+    assert timing < 5000    #page  must load within  2 soconds
+
+

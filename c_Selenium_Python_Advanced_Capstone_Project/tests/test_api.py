@@ -3,6 +3,7 @@ import pytest
 import requests
 from api.api_client import APIClient
 from config.environment import get_config
+from utils.logger import logger
 
 config = get_config()
 

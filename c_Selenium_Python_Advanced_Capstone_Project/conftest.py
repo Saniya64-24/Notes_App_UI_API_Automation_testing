@@ -1,9 +1,12 @@
-
+import allure
 import pytest
 import os
+# from config import grid
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 @pytest.fixture
 def driver(request):
@@ -11,18 +14,36 @@ def driver(request):
     options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     options.add_argument("--start-maximized")
 
-    # fix for WinError 193 — point to actual exe
-    driver_path = "C:\\Users\\khade\\.wdm\\drivers\\chromedriver\\win64\\147.0.7727.117\\chromedriver-win32\\chromedriver.exe"
-    service = Service(driver_path)
+    GRID = True
 
-    drv = webdriver.Chrome(service=service, options=options)
+    if GRID:
+        drv = webdriver.Remote(
+            command_executor="http://localhost:4444/wd/hub",
+            options=options
+        )
+    else:
+        service = Service(ChromeDriverManager().install())
+        drv = webdriver.Chrome(service=service, options=options)
+
+        drv = webdriver.Chrome(service=service, options=options)
+
     yield drv
 
     if hasattr(request.node, "rep_call") and request.node.rep_call.failed:
         os.makedirs("screenshots", exist_ok=True)
-        drv.save_screenshot(f"screenshots/{request.node.name}.png")
-        print(f"\nScreenshot saved: screenshots/{request.node.name}.png")
 
+        screenshot_path = f"screenshots/{request.node.name}.png"
+
+        drv.save_screenshot(screenshot_path)
+
+        allure.attach.file(
+            screenshot_path,
+            name="Failure Screenshot",
+            attachment_type=allure.attachment_type.PNG
+        )
+
+        print(f"\nScreenshot saved: {screenshot_path}")
+        
     drv.quit()
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)

@@ -4,6 +4,7 @@ from pages.home_page import HomePage
 from pages.notes_page import NotesPage
 from api.api_client import APIClient
 from config.environment import get_config
+from c_Selenium_Python_Advanced_Capstone_Project.utils.logger import logger
 
 config = get_config()
 

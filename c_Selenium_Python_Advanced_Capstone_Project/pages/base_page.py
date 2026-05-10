@@ -1,6 +1,8 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException
+from utils.self_healing import find_element_with_healing
+
 import time
 
 class BasePage:
@@ -51,3 +53,12 @@ class BasePage:
         except:
             print(f"Primary locator failed, trying fallback")
             return self.wait.until(EC.presence_of_element_located(fallback))
+    
+
+    def click_login(driver):
+        button = find_element_with_healing(
+            driver,
+            "//button[@id='login-btn']"
+        )
+
+        button.click()
