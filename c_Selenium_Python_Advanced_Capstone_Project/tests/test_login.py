@@ -51,11 +51,23 @@ def test_invalid_login(driver, email, password):
 
 #checking empty space entry in login details 
 @allure.feature("Login - Negative")
-def test_empty_fields(driver):                     # TC-003
+def test_empty_fields(driver):
+
+    logger.info("Testing login with empty fields")
+
     page = LoginPage(driver)
+
     page.open()
+
+    page.wait_for_dom()
+
     page.login("", "")
+
+    logger.info("Checking validation error visibility")
+
     assert page.is_visible(page.FIELD_ERROR)
+
+    logger.info("Empty field validation successful")
 
 #checking valid email error
 @allure.feature("Login - Negative")

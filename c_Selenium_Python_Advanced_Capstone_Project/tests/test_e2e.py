@@ -4,7 +4,7 @@ from pages.home_page import HomePage
 from pages.notes_page import NotesPage
 from api.api_client import APIClient
 from config.environment import get_config
-from c_Selenium_Python_Advanced_Capstone_Project.utils.logger import logger
+from utils.logger import logger
 
 config = get_config()
 
@@ -27,8 +27,17 @@ def test_ui_note_appears_in_api(driver):
     notes = api.get_notes().json()["data"]
 
     # Step 3 — verify match
-    titles = [n["title"] for n in notes]
-    assert "E2E Note" in titles
+    matched_note = next(
+        (
+            n for n in notes
+            if n["title"] == "E2E Note"
+            and n["description"] == "Check in API"
+        ),
+        None
+    )
+
+    assert matched_note is not None, \
+        "E2E FAILED — UI-created note not found in API"
 
 # -----------------------------
 #           FR-08

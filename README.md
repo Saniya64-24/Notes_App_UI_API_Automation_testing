@@ -180,5 +180,7 @@ docker-compose up -d
 cd ..
 pytest tests/ -n 2 -v
 
+pytest tests/ -n 3 -v --alluredir=allure-results
+
 allure serve allure-results -->
 

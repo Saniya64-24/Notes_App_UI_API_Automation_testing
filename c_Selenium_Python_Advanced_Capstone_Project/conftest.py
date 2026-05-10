@@ -1,20 +1,25 @@
 import allure
 import pytest
 import os
-# from config import grid
+from config.environment import get_config
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+config = get_config()
+
 @pytest.fixture
 def driver(request):
     options = Options()
-    options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     options.add_argument("--start-maximized")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
 
-    GRID = True
+    GRID = config["grid"]
 
     if GRID:
         drv = webdriver.Remote(
@@ -34,13 +39,17 @@ def driver(request):
 
         screenshot_path = f"screenshots/{request.node.name}.png"
 
-        drv.save_screenshot(screenshot_path)
+        try:
+            drv.save_screenshot(screenshot_path)
 
-        allure.attach.file(
-            screenshot_path,
-            name="Failure Screenshot",
-            attachment_type=allure.attachment_type.PNG
-        )
+            allure.attach.file(
+                screenshot_path,
+                name="Failure Screenshot",
+                attachment_type=allure.attachment_type.PNG
+            )
+
+        except Exception as e:
+            print(f"Screenshot capture failed: {e}")
 
         print(f"\nScreenshot saved: {screenshot_path}")
         

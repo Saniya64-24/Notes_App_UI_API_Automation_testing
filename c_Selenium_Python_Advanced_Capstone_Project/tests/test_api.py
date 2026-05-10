@@ -9,12 +9,26 @@ config = get_config()
 
 @allure.feature("API")
 def test_get_notes():
+    logger.info("Starting GET /notes API test")
+
     api = APIClient()
     api.login()
+
+    logger.info("Fetching notes from API")
     r = api.get_notes()
+
+    allure.attach(
+        r.text,
+        name="GET Notes Response",
+        attachment_type=allure.attachment_type.JSON
+    )
+
+    logger.info(f"Status Code: {r.status_code}")
+
     assert r.status_code == 200
     assert isinstance(r.json()["data"], list)
 
+    logger.info("GET /notes API test passed")
 
 # -----------------------------
 #           FR-08
@@ -43,6 +57,11 @@ def test_delete_note():
     r = api.delete_note(note_id)
     assert r.status_code == 200
     notes = api.get_notes().json()["data"]
+    allure.attach(
+        str(notes),
+        name="API Notes Data",
+        attachment_type=allure.attachment_type.JSON
+    )
     assert not any(n["id"] == note_id for n in notes)
 
 
