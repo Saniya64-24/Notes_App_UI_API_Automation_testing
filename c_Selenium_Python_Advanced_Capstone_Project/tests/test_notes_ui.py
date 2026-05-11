@@ -79,6 +79,7 @@ def test_get_notes_returns_list():
     assert isinstance(r.json()["data"], list)
 
 # adding check not FR asked for 
+
 #UI response timeshould be less than 2 seconds 
 @allure.feature("Performance")
 def test_ui_load_time(driver):
